@@ -1,0 +1,47 @@
+<div class="categories-block clearfix">
+    <div class="categories-menu">
+        <div class="menu-open">Categories<span></span></div>
+        <img
+                style="margin:40%;"
+                data-bind="visible: !categories(), attr: {src: loader}"
+                alt="loader"
+        />
+        <ul data-bind="foreach: categories">
+            <li data-bind="click: $parent.toggleActive, css: $parent.selectedCategory() == $data ? 'active': ''">
+                <a>
+                    <!--ko text: name--><!--/ko-->
+                    <img
+                            style="height:18px;float:right;"
+                            data-bind="visible: $parent.selectedCategory() == $data && products.length < 4, attr: {src: $parent.loader}"
+                            alt="loader"
+                    />
+                </a>
+            </li>
+        </ul>
+    </div>
+    <img
+            style="margin-left:32%;position:absolute;margin-top:14%;"
+            data-bind="visible: !categories(), attr: {src: loader}"
+            alt="loader"
+    />
+    <section class="categories-slider slider" data-bind="with: selectedCategory">
+        <!-- ko foreach: products -->
+        <div>
+            <span class="btns">
+                <a data-bind="attr: {href: productUrl}" style="cursor:pointer;">VIEW DETAILS</a>
+                <a data-bind="click: function() { $parent.parent.addToCart($data, $element) }" style="cursor:pointer;">ADD TO CART</a>
+            </span>
+            <span class="img">
+                <img data-bind="attr: {src: image}" alt="categories-slider_img1"/>
+            </span>
+            <span class="price">
+                <!--ko text: $parent.parent.formatCurrency(price)--><!--/ko-->
+		  	    <q class="retail">Retail Price: <span data-bind="text: $parent.parent.formatCurrency(msrp)"></span></q>
+		  	    <q class="save">You Save: <!--ko text: $parent.parent.getSavedInfo(msrp, price)--><!--/ko--></q>
+            </span>
+            <span class="name" data-bind="text: name"></span>
+            <span class="logos"></span>
+        </div>
+        <!-- /ko -->
+    </section>
+</div>

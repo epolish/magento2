@@ -1,0 +1,9 @@
+<?php $_firms = $block->getFirmsCollection(); ?>
+<div class="firms clearfix">
+    <?php foreach ($_firms as $firm): ?>
+        <a href="#">
+            <img src="<?= $block->escapeHtml($firm->image); ?>" alt="<?= $block->escapeHtml($firm->name); ?>">
+        </a>
+    <?php endforeach; ?>
+    <a class="all" href="#">view all</a>
+</div>

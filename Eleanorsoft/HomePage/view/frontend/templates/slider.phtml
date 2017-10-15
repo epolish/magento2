@@ -1,0 +1,19 @@
+<?php $slidesCollection = $block->getSlidesCollection(); ?>
+<section class="main-carousel slider" style="display:none;">
+    <?php foreach ($slidesCollection as $slide) : ?>
+    <div>
+        <img src="<?= $block->getMediaUrl($slide->getBackgroundImage()); ?>" alt="main-carousel_bg">
+        <div class="slide-content">
+            <div class="info">
+                <?= $slide->getContent(); ?>
+            </div>
+            <img src="<?= $block->getMediaUrl($slide->getImage()); ?>" alt="main-carousel_img">
+        </div>
+    </div>
+    <?php endforeach; ?>
+</section>
+<script>
+    require(['jquery', 'js/slick'], function($, slick) {
+        $('.main-carousel.slider').slick().show();
+    });
+</script>

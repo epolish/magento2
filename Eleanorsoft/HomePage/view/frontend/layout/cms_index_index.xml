@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceContainer name="content">
+            <block class="Eleanorsoft\HomePage\Block\HomePage" template="Eleanorsoft_HomePage::homepage.phtml"  name="homepage" cacheable="false">
+                <block class="Magento\Cms\Block\Block" name="special-offer">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">special-offer</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

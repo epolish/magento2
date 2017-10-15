@@ -1,0 +1,86 @@
+<?php use Eleanorsoft\HomePage\Helper\Data; ?>
+<div class="special-block clearfix">
+    <div class="special-prod">
+        <?php $products = $block->getProducts('limitedStock'); ?>
+        <div class="special-slider slider" style="display:none;cursor:pointer;">
+        <?php foreach ($products as $product): ?>
+            <div class="slide">
+                <h5><q>HURRY, LIMITED STOCK!</q></h5>
+                <span class="sticker">
+                    <q><strong>Last</strong> Chance</q>
+                </span>
+                <div class="img">
+                    <div>
+                        <a href="<?= $product->getProductUrl(); ?>">
+                            <img src="<?= $block->getProductImage($product); ?>" alt="<?= $product->getName(); ?>">
+                        </a>
+                    </div>
+                </div>
+                <span class="price">
+                    <?php $savedInfo = Data::getSavedInfo($product->getMsrp(), $product->getPrice()); ?>
+                    <?= Data::formatCurrency($product->getPrice()); ?>
+                    <q class="retail">Retail Price:<span><?= Data::formatCurrency($product->getMsrp()); ?></span></q>
+                    <q class="save">
+                        You Save: <?= Data::formatCurrency($savedInfo['difference']); ?>
+                        <?php if ($savedInfo['percent']) : ?>
+                            (<?= $savedInfo['percent']; ?>%)
+                        <?php endif; ?>
+                    </q>
+                </span>
+                <a href="<?= $product->getProductUrl(); ?>">
+                    <span class="firm"><?= $product->getName(); ?></span>
+                    <span class="name"><?= $product->getSku(); ?></span>
+                </a>
+            </div>
+        <?php endforeach; ?>
+        </div>
+
+        <?php $products = $block->getProducts('monthlySpecials'); ?>
+        <div class="special-slider slider" style="display:none;cursor:pointer;">
+        <?php foreach ($products as $product): ?>
+            <div class="slide">
+                <h5><q>MONTHLY DISCOUNTS</q></h5>
+                <span class="sticker">
+                    <span>MONTHLY SPECIAL</span>
+                </span>
+                <div class="img">
+                    <div>
+                        <a href="<?= $product->getProductUrl(); ?>">
+                            <img src="<?= $block->getProductImage($product); ?>" alt="<?= $product->getName(); ?>">
+                        </a>
+                    </div>
+                </div>
+                <span class="price">
+                    <?php $savedInfo = Data::getSavedInfo($product->getMsrp(), $product->getPrice()); ?>
+                    <?= Data::formatCurrency($product->getPrice()); ?>
+                    <q class="retail">Retail Price:<span><?= Data::formatCurrency($product->getMsrp()); ?></span></q>
+                    <q class="save">
+                        You Save: <?= Data::formatCurrency($savedInfo['difference']); ?>
+                        <?php if ($savedInfo['percent']) : ?>
+                            (<?= $savedInfo['percent']; ?>%)
+                        <?php endif; ?>
+                    </q>
+                </span>
+                <a href="<?= $product->getProductUrl(); ?>">
+                    <span class="firm"><?= $product->getName(); ?></span>
+                    <span class="name"><?= $product->getSku(); ?></span>
+                </a>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    </div>
+    <?= $block->getChildHtml('special-offer'); ?>
+</div>
+<script>
+    require(['jquery', 'js/slick'], function($, slick) {
+        var sliders = $('div.special-slider.slider');
+
+        sliders.slick({
+            dots: true,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+        sliders.show();
+    });
+</script>

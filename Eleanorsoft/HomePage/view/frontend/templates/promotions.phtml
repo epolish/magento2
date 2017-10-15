@@ -1,0 +1,114 @@
+<?php
+
+use Eleanorsoft\HomePage\Helper\Data;
+
+$sections = [
+    'promos'       => $block->getProducts('promos'),
+    'featured'     => $block->getProducts('featured'),
+    'best-sellers' => $block->getProducts('bestSellers')
+];
+?>
+<div class="promotions">
+    <div class="promo-top clearfix">
+        <h2>Promotions</h2>
+        <div class="promo-menu">
+            <div>
+                <ul>
+                    <li class="open-menu"></li>
+                    <li data-tab="featured" class="active"><a style="cursor: pointer">FEATURED</a></li>
+                    <li data-tab="best-sellers"><a style="cursor: pointer">BEST SELLERS</a></li>
+                    <li data-tab="promos"><a style="cursor: pointer">PROMOS</a></li>
+                    <li><a class="btn-reverse" href="<?= $block->getUrl('promos'); ?>">ALL PROMOTIONS</a></li>
+                </ul>
+            </div>
+            <a class="btn-reverse" href="#">View all</a>
+        </div>
+    </div>
+    <?php foreach ($sections as $tabId => $products): ?>
+        <section id="<?= $tabId; ?>" class="regular slider" style="display: none;">
+            <?php foreach ($products as $product): ?>
+                <div>
+                    <span class="btns">
+                        <a href="<?= $product->getProductUrl(); ?>">VIEW DETAILS</a>
+                        <a
+                        class="promotions-add-to-cart" style="cursor: pointer"
+                        data-product-id="<?= $product->getId(); ?>"
+                        data-product-add-to-cart-url="<?= $block->getProductAddToCartUrl($product); ?>"
+                        >ADD TO CART</a>
+                    </span>
+                    <span class="img">
+                        <img src="<?= $block->getProductImage($product); ?>" alt="<?= $product->getName(); ?>">
+                    </span>
+                    <span class="price">
+                        <?php $savedInfo = Data::getSavedInfo($product->getMsrp(), $product->getPrice()); ?>
+                            <?= Data::formatCurrency($product->getPrice()); ?>
+                            <q class="retail">Retail Price:<span><?= Data::formatCurrency($product->getMsrp()); ?></span></q>
+                        <q class="save">
+                            You Save: <?= Data::formatCurrency($savedInfo['difference']); ?>
+                            <?php if ($savedInfo['percent']) : ?>
+                                (<?= $savedInfo['percent']; ?>%)
+                            <?php endif; ?>
+                        </q>
+                    </span>
+                    <span class="name"><?= $product->getName(); ?></span>
+                    <span class="logos"><img src="" alt="logos-1"></span>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    <?php endforeach; ?>
+</div>
+<script>
+    require([
+        'jquery',
+        'js/slick',
+        'Magento_Customer/js/customer-data'
+    ], function($, slick, customerData) {
+        var primaryTab = 'featured';
+
+        $('.promotions section').slick({
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 4
+        });
+        $('.promotions section#' + primaryTab).show();
+        $('[data-tab]').click(function() {
+            var element = $(this),
+                tab = $(this).data('tab');
+
+            $('[data-tab]').removeClass('active');
+            $('.promotions section').hide();
+            $('.promotions section#' + tab).show();
+            element.addClass('active');
+        });
+        $('.promotions-add-to-cart').click(function() {
+            var element = $(this),
+                status = element.data('status');
+
+            if(status == 'processing' || status == 'added') {
+                return;
+            }
+
+            element.text('Processing...');
+            element.attr('data-status', 'processing');
+            $.post(
+                element.data('product-add-to-cart-url'),
+                {
+                    product: element.data('product-id'),
+                    form_key: $('[name="form_key"]').val()
+                }
+            ).done(function (response) {
+                if(response.length === undefined) {
+                    window.location = response.backUrl;
+                } else {
+                    element.text('Added');
+                    element.attr('data-status', 'added');
+                    customerData.invalidate(['cart']);
+                }
+
+            }).fail(function (jqXHR, textStatus) {
+
+                console.log('Couldn`t add product to cart. ' + textStatus);
+            })
+        });
+    });
+</script>

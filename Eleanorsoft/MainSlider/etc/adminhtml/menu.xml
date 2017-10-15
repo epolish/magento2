@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<!--<add id="Eleanorsoft_MainSlider::mainslider" title="Slides" translate="title" module="Eleanorsoft_MainSlider" parent="Magento_Backend::content_elements" sortOrder="50" dependsOnModule="Eleanorsoft_MainSlider" resource="Eleanorsoft_MainSlider::mainslider"/>-->
+		<add id="Eleanorsoft_MainSlider::mainslider_items" title="Main Slider" translate="title"
+			 module="Eleanorsoft_MainSlider" parent="Magento_Backend::content_elements" sortOrder="100"
+			 dependsOnModule="Eleanorsoft_MainSlider" action="eleanorsoftmainslider/item"
+			 resource="Eleanorsoft_MainSlider::mainslider" />
+	</menu>
+</config>

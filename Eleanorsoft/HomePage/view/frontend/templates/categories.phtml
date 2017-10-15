@@ -1,0 +1,20 @@
+<script>
+    var eleanorsoftHomepagePreloaderPath = '<?= $block->getViewFileUrl('images/loader-1.gif') ?>';
+</script>
+<div id="category-container" data-bind="scope: 'homePageCategory'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "homePageCategory": {
+                    "component": "Eleanorsoft_HomePage/js/category",
+                    "template" : "Eleanorsoft_HomePage/category"
+                }
+            }
+        }
+    }
+}
+</script>

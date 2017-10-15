@@ -1,0 +1,68 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$_product = $block->getProduct();
+?>
+<style>
+    p.required,
+    div.nested,
+    div.other-info,
+    div.box-tocart a,
+    div.product-addto-links,
+    .price-box .price-final_price,
+    div.bot-text:not(.primary-box-text) {
+        display:none !important;
+    }
+    div.bundle-info span.price:before {
+        content: '<?= __('Your Price'); ?>: ';
+    }
+    .prod-det .product-info-main .box-tocart .fieldset {
+        margin-bottom: 0;
+    }
+    .prod-det .product-info-main .bot-text h6 {
+        padding: 0;
+        border-top: none;
+    }
+    .prod-det .product-info-main .box-tocart {
+        margin-bottom: 0;
+        padding: 20px 0 0;
+        border-bottom: none;
+    }
+    div.bundle-info p.price-as-configured {
+        width: 1%;
+        height: 148px;
+        display: table-cell;
+        vertical-align: middle;
+        border-top: 1px solid #EBEBEB;
+        border-bottom: 1px solid #EBEBEB;
+    }
+    div.price-box span.price {
+        color: #F16329;
+        font-weight: normal;
+        letter-spacing: 1.3px;
+        font-size: 30px !important;
+        line-height: 120% !important;
+        margin-bottom: 10px !important;
+        font-family: "helveticaneuebold";
+    }
+</style>
+<div class="bot-text primary-box-text">
+    <h6><?= __('DESCRIPTION:'); ?></h6>
+    <?= $_product->getDescription(); ?>
+</div>
+<script>
+    require(['jquery', 'js/jquery.selectric.min'], function($, selectric) {
+        $('.bundle-option-select').selectric({
+            optionsItemBuilder: function(itemData, element, index) {
+                return itemData.text.replace('$', '<strong>$') + '</strong>';
+            },
+            labelBuilder: function(itemData) {
+                return itemData.text.replace('$', '<strong>$') + '</strong>';
+            }
+        });
+    });
+</script>
